@@ -4,72 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datatype.org</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         body { font-family: 'Inter', sans-serif; }
+        
+        /* DYNAMIC ANIMATION: 
+           This makes the background slowly zoom in and out, 
+           giving it a "living" or "breathing" feel.
+        */
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+        .animate-slow-zoom {
+            animation: slowZoom 20s infinite alternate ease-in-out;
+        }
     </style>
 </head>
-<body class="bg-[url('brain-bg.png')] bg-cover bg-center bg-no-repeat bg-fixed text-white flex flex-col min-h-screen antialiased">
+<body class="bg-black text-white flex flex-col min-h-screen antialiased relative overflow-hidden">
 
-    <header class="py-6 px-6 md:px-12">
-        <div class="text-xl font-semibold tracking-tight">Datatype.org</div>
-    </header>
+    <div class="fixed inset-0 z-0">
+        <img src="brain-bg.png" 
+             alt="Background" 
+             class="w-full h-full object-cover object-[60%_center] md:object-center opacity-80 animate-slow-zoom">
+        
+        <div class="absolute inset-0 bg-black/70 md:bg-black/30 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+    </div>
 
-    <main class="flex-grow flex items-center px-6 md:px-16 lg:px-24 py-12">
-        <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            
-            <div class="space-y-10 md:space-y-12">
+    <div class="relative z-10 flex flex-col min-h-screen">
+        
+        <header class="py-6 px-6 md:px-12">
+            <div class="text-xl font-semibold tracking-tight">Datatype.org</div>
+        </header>
+
+        <main class="flex-grow flex items-center px-6 md:px-16 lg:px-24 py-8 md:py-12">
+            <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight max-w-2xl">
-                    A research lab for <br> everything data.
-                </h1>
-
-                <div class="flex flex-wrap gap-8 md:gap-12">
+                <div class="space-y-10 md:space-y-12">
                     
-                    <div class="flex flex-col gap-3 min-w-[80px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <div class="text-sm font-medium leading-snug text-gray-300">Data <br> Discovery</div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight max-w-2xl drop-shadow-2xl">
+                        A research lab for <br> everything data.
+                    </h1>
+
+                    <div class="flex flex-wrap gap-8 md:gap-12">
+                        <div class="flex flex-col gap-3 min-w-[80px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <div class="text-sm font-medium leading-snug text-gray-200">Data <br> Discovery</div>
+                        </div>
+                        <div class="flex flex-col gap-3 min-w-[80px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                            </svg>
+                            <div class="text-sm font-medium leading-snug text-gray-200">Agentic <br> Research</div>
+                        </div>
+                        <div class="flex flex-col gap-3 min-w-[80px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div class="text-sm font-medium leading-snug text-gray-200">Integrity <br> Testing</div>
+                        </div>
                     </div>
 
-                    <div class="flex flex-col gap-3 min-w-[80px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                        </svg>
-                        <div class="text-sm font-medium leading-snug text-gray-300">Agentic <br> Research</div>
-                    </div>
-
-                    <div class="flex flex-col gap-3 min-w-[80px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div class="text-sm font-medium leading-snug text-gray-300">Integrity <br> Testing</div>
+                    <div>
+                        <button class="w-full sm:w-auto bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-3 font-medium rounded-md hover:bg-white hover:text-black transition-all duration-300">
+                            View Research & Case Studies
+                        </button>
                     </div>
                 </div>
 
-                <div>
-                    <button class="w-full sm:w-auto bg-white text-black px-8 py-3 font-medium rounded-md hover:bg-gray-200 transition-colors text-center">
-                        View Research & Case Studies
-                    </button>
-                </div>
+                <div class="hidden lg:block"></div>
             </div>
+        </main>
 
-            <div class="hidden lg:block"></div>
-        </div>
-    </main>
-
-    <footer class="py-8 px-6 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4 md:gap-0">
-        <div class="flex gap-8">
-            <a href="#" class="hover:text-gray-300 transition-colors">About</a>
-            <a href="#" class="hover:text-gray-300 transition-colors">Lab Notes</a>
-            <a href="#" class="hover:text-gray-300 transition-colors">Contact</a>
-        </div>
-        <div class="text-center md:text-right">
-            © 2026 Datatype.org - India
-        </div>
-    </footer>
+        <footer class="py-8 px-6 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400 gap-4 md:gap-0 mt-auto">
+            <div class="flex gap-8">
+                <a href="#" class="hover:text-white transition-colors">About</a>
+                <a href="#" class="hover:text-white transition-colors">Lab Notes</a>
+                <a href="#" class="hover:text-white transition-colors">Contact</a>
+            </div>
+            <div class="text-center md:text-right">
+                © 2026 Datatype.org - India
+            </div>
+        </footer>
+    </div>
 
 </body>
 </html>
