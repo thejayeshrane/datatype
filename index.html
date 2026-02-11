@@ -14,10 +14,7 @@
             theme: {
                 extend: {
                     colors: {
-                        neon: '#39ff14', // The Matrix/Cyberpunk Green
-                    },
-                    boxShadow: {
-                        'neon': '0 0 10px rgba(57, 255, 20, 0.5), 0 0 20px rgba(57, 255, 20, 0.3)',
+                        neon: '#39ff14', 
                     }
                 }
             }
@@ -27,13 +24,14 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         
-        /* Slow Zoom Animation */
-        @keyframes slowZoom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
+        /* Floating Animation for the Container */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
         }
-        .animate-slow-zoom {
-            animation: slowZoom 20s infinite alternate ease-in-out;
+        .animate-float {
+            animation: float 6s infinite ease-in-out;
         }
 
         /* Flowing Underline Animation */
@@ -57,7 +55,7 @@
             left: 0;
             height: 4px;
             background-color: #39ff14;
-            box-shadow: 0 0 4px rgba(57, 255, 20, 0.3); /* Lower default intensity */
+            box-shadow: 0 0 4px rgba(57, 255, 20, 0.3);
             animation: underlineFlow 4s infinite ease-in-out;
             transition: box-shadow 0.3s ease;
         }
@@ -66,17 +64,15 @@
         .flowing-underline:hover::after {
             box-shadow: 0 0 12px #39ff14;
         }
+
+        /* Smooth transition for interactive brain tracking */
+        #interactive-brain {
+            transition: transform 0.15s ease-out;
+            will-change: transform;
+        }
     </style>
 </head>
 <body class="bg-black text-gray-100 flex flex-col min-h-screen antialiased relative overflow-hidden">
-
-    <div class="fixed inset-0 z-0">
-        <img src="brain-bg.png" 
-             alt="Background" 
-             class="w-full h-full object-cover object-[60%_center] md:object-center opacity-60 animate-slow-zoom transition-all duration-700">
-        
-        <div class="absolute inset-0 bg-black/80 md:bg-black/50 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-    </div>
 
     <div class="relative z-10 flex flex-col min-h-screen">
         
@@ -107,8 +103,7 @@
         <main class="flex-grow flex items-center px-6 md:px-16 lg:px-24 py-8 md:py-12">
             <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 
-                <div class="space-y-10 md:space-y-12">
-                    
+                <div class="space-y-10 md:space-y-12 z-20">
                     <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight max-w-[12ch] sm:max-w-2xl drop-shadow-2xl">
                         A research lab for <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-200">everything <span class="flowing-underline text-white cursor-default">data</span></span><span class="text-neon">.</span>
                     </h1>
@@ -141,7 +136,15 @@
                     </div>
                 </div>
 
-                <div class="hidden lg:block"></div>
+                <div class="flex justify-center items-center lg:justify-end z-10">
+                    <div class="relative w-72 h-72 sm:w-96 sm:h-96 lg:w-[500px] lg:h-[500px] animate-float">
+                        <div class="absolute inset-0 bg-neon/10 rounded-full blur-[100px]"></div>
+                        <img id="interactive-brain" 
+                             src="brain-bg.png" 
+                             alt="Digital AI Brain" 
+                             class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(57,255,20,0.3)]">
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -152,10 +155,39 @@
                 <a href="#" class="hover:text-neon transition-colors">Contact</a>
             </div>
             <div class="text-center md:text-right font-mono text-xs text-gray-500 uppercase tracking-widest">
-                © 2026 datatype.org
+                © 2026 datatype.org [MUMBAI_NODE]
             </div>
         </footer>
     </div>
 
+    <script>
+        const brain = document.getElementById('interactive-brain');
+
+        // Mouse movement for Desktop
+        document.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            // Movement intensity
+            const intensity = 35; 
+            
+            const moveX = (clientX - centerX) / intensity;
+            const moveY = (clientY - centerY) / intensity;
+            
+            brain.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+        });
+
+        // Tilt effect for Mobile (iPhone 15 Gyroscope)
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                // Adjusting for common holding angle
+                const moveX = e.gamma / 1.5; 
+                const moveY = (e.beta - 45) / 1.5; 
+                
+                brain.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            });
+        }
+    </script>
 </body>
 </html>
