@@ -49,15 +49,22 @@
             display: inline-block;
         }
 
+        /* Default state: Thicker but dimmer glow */
         .flowing-underline::after {
             content: '';
             position: absolute;
-            bottom: 2px; /* Adjusted position for thicker line */
+            bottom: 2px;
             left: 0;
-            height: 4px; /* Increased thickness from 2px to 4px */
+            height: 4px;
             background-color: #39ff14;
-            box-shadow: 0 0 12px #39ff14; /* Slightly stronger glow for thicker line */
+            box-shadow: 0 0 4px rgba(57, 255, 20, 0.3); /* Lower default intensity */
             animation: underlineFlow 4s infinite ease-in-out;
+            transition: box-shadow 0.3s ease;
+        }
+
+        /* Hover state: Bright glow */
+        .flowing-underline:hover::after {
+            box-shadow: 0 0 12px #39ff14;
         }
     </style>
 </head>
@@ -74,8 +81,8 @@
     <div class="relative z-10 flex flex-col min-h-screen">
         
         <header class="py-6 px-6 md:px-12 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 group transition-opacity hover:opacity-80">
-                <svg class="w-8 h-8 text-neon drop-shadow-[0_0_5px_rgba(57,255,20,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="/" class="flex items-center gap-3 group transition-all duration-300">
+                <svg class="w-8 h-8 text-neon opacity-70 drop-shadow-[0_0_2px_rgba(57,255,20,0.3)] group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(57,255,20,0.8)] transition-all duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="18" cy="5" r="3"></circle>
                     <circle cx="6" cy="12" r="3"></circle>
                     <circle cx="18" cy="19" r="3"></circle>
@@ -103,7 +110,7 @@
                 <div class="space-y-10 md:space-y-12">
                     
                     <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight max-w-[12ch] sm:max-w-2xl drop-shadow-2xl">
-                        A research lab for <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-200">everything <span class="flowing-underline text-white">data</span></span><span class="text-neon">.</span>
+                        A research lab for <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-200">everything <span class="flowing-underline text-white cursor-default">data</span></span><span class="text-neon">.</span>
                     </h1>
 
                     <div class="flex flex-wrap gap-8 md:gap-12">
@@ -145,7 +152,7 @@
                 <a href="#" class="hover:text-neon transition-colors">Contact</a>
             </div>
             <div class="text-center md:text-right font-mono text-xs text-gray-500 uppercase tracking-widest">
-                © 2026 datatype.org
+                © 2026 datatype.org [MUMBAI_NODE]
             </div>
         </footer>
     </div>
