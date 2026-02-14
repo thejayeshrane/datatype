@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>agents.datatype.org - Neural Uplink</title>
+    <title>datatype.org - Agents</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -24,14 +24,22 @@
 
     <header class="border-b border-neon/20 bg-black/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            
             <a href="https://datatype.org" class="text-sm text-gray-400 hover:text-neon transition-colors">
-                ← Return to datatype.org
+                <span class="md:hidden text-lg">←</span>
+                <span class="hidden md:inline">← Return to datatype.org</span>
             </a>
-            <div class="font-mono text-neon tracking-widest text-lg">AGENTS_UPLINK // V1.0</div>
-            <div class="flex items-center gap-2">
-                <div class="w-2 h-2 bg-neon rounded-full animate-pulse"></div>
-                <span class="text-xs font-mono text-neon/80">ONLINE</span>
+
+            <div class="font-mono text-neon tracking-widest text-xs md:text-lg text-center">
+                AGENTS_UPLINK // V1.0
             </div>
+
+            <div class="hidden md:flex items-center gap-2">
+                <div class="w-2 h-2 bg-neon rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono text-neon/80">SYSTEM ONLINE</span>
+            </div>
+            
+            <div class="w-4 md:hidden"></div>
         </div>
     </header>
 
@@ -47,7 +55,7 @@
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Echo Bot</h3>
                 <p class="text-sm text-gray-400 mb-6">A basic conversational loop to test API latency and connectivity.</p>
-                <a href="/agents/echo" class="inline-flex items-center text-sm text-neon hover:underline">
+                <a href="echo/index.html" class="inline-flex items-center text-sm text-neon hover:underline">
                     Initialize Sequence →
                 </a>
             </div>
