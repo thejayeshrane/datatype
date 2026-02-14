@@ -18,13 +18,11 @@
     </script>
     
     <style>
-        /* 5. CUSTOM SCROLLBAR: Makes the scrollbar look dark and thin (Webkit browsers only) */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #39ff14; }
         
-        /* 6. BLINKING CURSOR: Creates the flashing block '█' effect */
         .typing-cursor::after {
             content: '█';
             animation: blink 1s step-start infinite;
@@ -49,17 +47,16 @@
     </header>
 
     <main id="terminal-output" class="flex-grow p-6 overflow-y-auto space-y-4 text-sm md:text-base">
-        
         <div class="text-gray-500">
-            <span class="text-neon">root@datatype:~$</span> ./init_echo_sequence.sh
+            <span class="text-neon">root@datatype:~$</span> ./init_neural_uplink.sh
         </div>
         <div class="text-gray-400">
-            > Initializing Neural Uplink... [OK]<br>
-            > Establishing Latency Check... [OK]<br>
+            > Connecting to OpenRouter API... [OK]<br>
+            > Authenticating Secure Channel... [OK]<br>
             > System Ready.
         </div>
         <div class="text-neon pt-4">
-            [SYSTEM]: Echo Bot is online. I will repeat whatever you say to test connectivity.
+            [SYSTEM]: Uplink established. I am ready to process your request.
         </div>
     </main>
 
@@ -74,51 +71,61 @@
     </footer>
 
     <script>
-        // Select key elements from the HTML so we can control them
         const form = document.getElementById('console-form');
         const input = document.getElementById('user-input');
         const output = document.getElementById('terminal-output');
 
-        // FUNCTION: Keeps the scrollbar at the bottom whenever a new message arrives
         const scrollToBottom = () => {
             output.scrollTop = output.scrollHeight;
         };
 
-        // FUNCTION: Creates a new HTML line and adds it to the output div
         const addLine = (text, type = 'system') => {
             const div = document.createElement('div');
             
-            // Check if the sender is 'user' or 'bot' to style it differently
             if (type === 'user') {
                 div.innerHTML = `<span class="text-gray-500">user@node-01:~$</span> <span class="text-white">${text}</span>`;
             } else if (type === 'bot') {
-                div.innerHTML = `<span class="text-neon">[ECHO]:</span> ${text}`;
-                div.className = "text-gray-300"; // Slight dim for bot text
+                div.innerHTML = `<span class="text-neon">[AI]:</span> ${text}`;
+                div.className = "text-gray-300";
+            } else if (type === 'error') {
+                div.innerHTML = `<span class="text-red-500">[ERROR]:</span> ${text}`;
+                div.className = "text-red-400";
             }
             
-            output.appendChild(div); // Add the new div to the main area
-            scrollToBottom();        // Auto-scroll down
+            output.appendChild(div);
+            scrollToBottom();
         };
 
-        // EVENT LISTENER: Listens for when the user hits 'Enter' or clicks 'Send'
-        form.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevents the page from refreshing (default form behavior)
-            
-            const text = input.value.trim(); // Get text and remove extra spaces
-            if (!text) return; // If empty, do nothing
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = input.value.trim();
+            if (!text) return;
 
-            // 1. Show User Input immediately
+            // 1. Show User Input
             addLine(text, 'user');
-            input.value = ''; // Clear the input box for the next message
+            input.value = '';
 
-            // 2. Simulate Bot Response (The "Echo" Logic)
-            // setTimeout delays the response by 300ms to feel like a real network connection
-            setTimeout(() => {
-                addLine(text, 'bot'); // Echoes back the exact same text
-            }, 300); 
+            // 2. Send to Backend using Fetch API
+            try {
+                const response = await fetch('http://127.0.0.1:8000/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+
+                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+                
+                const data = await response.json();
+                
+                // 3. Display AI Response from your Python backend
+                addLine(data.reply, 'bot');
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                addLine("Connection Error: Is the backend running? (uvicorn main:app --reload)", 'error');
+            }
         });
 
-        // Automatically puts the cursor in the input box when page loads
         window.onload = () => input.focus();
     </script>
 </body>
