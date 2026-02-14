@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Bot // Terminal</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2339ff14' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='3'%3E%3C/circle%3E%3Ccircle cx='6' cy='12' r='3'%3E%3C/circle%3E%3Ccircle cx='18' cy='19' r='3'%3E%3C/circle%3E%3Cline x1='8.59' y1='13.51' x2='15.42' y2='17.49'%3E%3C/line%3E%3Cline x1='15.41' y1='6.51' x2='8.59' y2='10.49'%3E%3C/line%3E%3C/svg%3E">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { neon: '#39ff14' }, fontFamily: { mono: ['"JetBrains Mono"', 'monospace'] } } }
+        }
+    </script>
+    
+    <style>
+        /* 5. CUSTOM SCROLLBAR: Makes the scrollbar look dark and thin (Webkit browsers only) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #39ff14; }
+        
+        /* 6. BLINKING CURSOR: Creates the flashing block '█' effect */
+        .typing-cursor::after {
+            content: '█';
+            animation: blink 1s step-start infinite;
+            color: #39ff14;
+            margin-left: 2px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="bg-black text-gray-300 min-h-screen flex flex-col font-mono overflow-hidden">
+
+    <header class="border-b border-gray-800 bg-gray-900/50 p-4 flex justify-between items-center select-none">
+        <div class="flex items-center gap-2">
+            <a href="../index.html" class="text-gray-500 hover:text-white transition-colors mr-4">← EXIT</a>
+            <span class="text-neon text-sm tracking-widest">ECHO_PROTOCOL_V1</span>
+        </div>
+        <div class="flex gap-2">
+            <div class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50"></div>
+            <div class="w-3 h-3 rounded-full bg-neon/20 border border-neon/50"></div>
+        </div>
+    </header>
+
+    <main id="terminal-output" class="flex-grow p-6 overflow-y-auto space-y-4 text-sm md:text-base">
+        
+        <div class="text-gray-500">
+            <span class="text-neon">root@datatype:~$</span> ./init_echo_sequence.sh
+        </div>
+        <div class="text-gray-400">
+            > Initializing Neural Uplink... [OK]<br>
+            > Establishing Latency Check... [OK]<br>
+            > System Ready.
+        </div>
+        <div class="text-neon pt-4">
+            [SYSTEM]: Echo Bot is online. I will repeat whatever you say to test connectivity.
+        </div>
+    </main>
+
+    <footer class="p-4 bg-black border-t border-gray-800">
+        <form id="console-form" class="flex items-center gap-2 max-w-4xl mx-auto">
+            <span class="text-neon">></span>
+            <input type="text" id="user-input" 
+                class="flex-grow bg-transparent border-none outline-none text-white placeholder-gray-700 focus:ring-0" 
+                placeholder="Type command or message..." autocomplete="off" autofocus>
+            <button type="submit" class="text-gray-500 hover:text-neon transition-colors">SEND</button>
+        </form>
+    </footer>
+
+    <script>
+        // Select key elements from the HTML so we can control them
+        const form = document.getElementById('console-form');
+        const input = document.getElementById('user-input');
+        const output = document.getElementById('terminal-output');
+
+        // FUNCTION: Keeps the scrollbar at the bottom whenever a new message arrives
+        const scrollToBottom = () => {
+            output.scrollTop = output.scrollHeight;
+        };
+
+        // FUNCTION: Creates a new HTML line and adds it to the output div
+        const addLine = (text, type = 'system') => {
+            const div = document.createElement('div');
+            
+            // Check if the sender is 'user' or 'bot' to style it differently
+            if (type === 'user') {
+                div.innerHTML = `<span class="text-gray-500">user@node-01:~$</span> <span class="text-white">${text}</span>`;
+            } else if (type === 'bot') {
+                div.innerHTML = `<span class="text-neon">[ECHO]:</span> ${text}`;
+                div.className = "text-gray-300"; // Slight dim for bot text
+            }
+            
+            output.appendChild(div); // Add the new div to the main area
+            scrollToBottom();        // Auto-scroll down
+        };
+
+        // EVENT LISTENER: Listens for when the user hits 'Enter' or clicks 'Send'
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevents the page from refreshing (default form behavior)
+            
+            const text = input.value.trim(); // Get text and remove extra spaces
+            if (!text) return; // If empty, do nothing
+
+            // 1. Show User Input immediately
+            addLine(text, 'user');
+            input.value = ''; // Clear the input box for the next message
+
+            // 2. Simulate Bot Response (The "Echo" Logic)
+            // setTimeout delays the response by 300ms to feel like a real network connection
+            setTimeout(() => {
+                addLine(text, 'bot'); // Echoes back the exact same text
+            }, 300); 
+        });
+
+        // Automatically puts the cursor in the input box when page loads
+        window.onload = () => input.focus();
+    </script>
+</body>
+</html>
