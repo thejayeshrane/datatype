@@ -1,23 +1,24 @@
+# backend/main.py
 import os
-import httpx
+import json
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
+import httpx
+from backend.tools import calculate, calculate_schema  # <--- NEW: Import our tool
 
 load_dotenv()
-API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 app = FastAPI()
 
+# 1. CORS Setup (Who can talk to us?)
 app.add_middleware(
     CORSMiddleware,
-    # REPLACE ["*"] WITH THIS:
     allow_origins=[
-        "http://localhost:5500",      # Allows your local testing
-        "http://127.0.0.1:5500",      # Allows your local testing IP
-        "https://datatype.org",       # Allows your live domain
-        "https://www.datatype.org"    # Allows the 'www' version
+        "http://127.0.0.1:5500",
+        "https://datatype.org",
+        "https://www.datatype.org"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -27,49 +28,79 @@ app.add_middleware(
 class ChatRequest(BaseModel):
     message: str
 
+API_KEY = os.getenv("OPENROUTER_API_KEY")
+API_URL = "https://openrouter.ai/api/v1/chat/completions"
+
+# 2. The Tool Map (Links the name 'calculate' to the actual Python function)
+available_tools = {
+    "calculate": calculate
+}
+
 @app.post("/chat")
 async def chat_endpoint(request: ChatRequest):
-    url = "https://openrouter.ai/api/v1/chat/completions"
-    
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://datatype.org",
-        "X-Title": "Datatype Agent",
-    }
-    
-    payload = {
-        # 'openrouter/free' is the most stable free-only router
-        "model": "openrouter/free", 
-        "messages": [
-            {"role": "system", "content": "Your name is Echo Bot. You are general AI assistant"},
-            {"role": "user", "content": request.message}
-        ]
-    }
+    if not API_KEY:
+        raise HTTPException(status_code=500, detail="API Key missing")
 
+    messages = [
+    {"role": "system", "content": "You are a Math Expert. NEVER estimate. ALWAYS use the 'calculate' tool for every math operation, no matter how simple."},
+    {"role": "user", "content": request.message}
+    ]
+
+    # 3. First Call: Ask the AI (providing the tools)
     async with httpx.AsyncClient() as client:
         try:
-            # We add a 20-second timeout to handle busy free queues
-            response = await client.post(url, json=payload, headers=headers, timeout=20.0)
+            response = await client.post(
+                API_URL,
+                headers={
+                    "Authorization": f"Bearer {API_KEY}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://datatype.org",
+                },
+                json={
+                    "model": "openai/gpt-4o-mini", # Smart model that supports tools
+                    "messages": messages,
+                    "tools": [calculate_schema],
+                    "tool_choice": {"type": "function", "function": {"name": "calculate"}}
+                },
+                timeout=60.0 
+            )
+            response.raise_for_status()
+            ai_msg = response.json()["choices"][0]["message"]
             
-            if response.status_code == 429:
-                return {"reply": "[SYSTEM]: All free lanes are currently congested. Retrying in 30s..."}
+            # 4. Check: Did the AI ask to use a tool?
+            if ai_msg.get("tool_calls"):
+                tool_call = ai_msg["tool_calls"][0]
+                function_name = tool_call["function"]["name"]
+                arguments = json.loads(tool_call["function"]["arguments"])
+                
+                # Run the Python function!
+                if function_name in available_tools:
+                    function_to_call = available_tools[function_name]
+                    result = function_to_call(**arguments)
+                    
+                    # 5. Add the result to memory and ask AI again
+                    messages.append(ai_msg) # The AI's request
+                    messages.append({       # The Result
+                        "role": "tool",
+                        "tool_call_id": tool_call["id"],
+                        "content": str(result)
+                    })
+                    
+                    # Final Call: Get the answer based on the calculation
+                    final_response = await client.post(
+                        API_URL,
+                        headers={"Authorization": f"Bearer {API_KEY}"},
+                        json={
+                            "model": "openai/gpt-4o-mini",
+                            "messages": messages
+                        },
+                        timeout=60.0
+                    )
+                    return {"reply": final_response.json()["choices"][0]["message"]["content"]}
+            
+            # If no tool was needed, just return the text
+            return {"reply": ai_msg["content"]}
 
-            if response.status_code != 200:
-                print(f"❌ Detail: {response.text}")
-                return {"reply": f"[SYSTEM ERROR]: Uplink Code {response.status_code}"}
-
-            data = response.json()
-            # This tells you which specific free model finally picked up your call
-            actual_model = data.get("model", "unknown-free-model")
-            bot_reply = data["choices"][0]["message"]["content"]
-            
-            print(f"✅ Connection successful via: {actual_model}")
-            return {"reply": bot_reply}
-            
         except Exception as e:
-            return {"reply": f"[CONNECTION ERROR]: {str(e)}"}
-
-@app.get("/")
-def read_root():
-    return {"status": "Online", "mode": "Free Router Active"}
+            print(f"Error: {str(e)}")
+            raise HTTPException(status_code=500, detail=str(e))
