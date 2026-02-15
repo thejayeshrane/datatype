@@ -1,3 +1,5 @@
+from backend.pdf_engine import ingest_pdf, search_pdf
+
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 # Import the engine we just fixed
@@ -41,3 +43,21 @@ async def agent_pdf(file: UploadFile = File(None), question: str = Form(None)):
 
     except Exception as e:
         return {"response": f"**SYSTEM ERROR:** {str(e)}"}
+
+# --- AGENT 003: PDF READER ---
+@app.post("/agent/pdf")
+async def agent_pdf(file: UploadFile = File(None), question: str = Form(None)):
+    try:
+        if file:
+            content = await file.read()
+            count = ingest_pdf(content, file.filename) 
+            return {"response": f"**SYSTEM:** Analyzed {file.filename}. {count} memory fragments secured."}
+        
+        if question:
+            result = search_pdf(question)
+            return {"response": result}
+            
+        return {"response": "System Idle. Upload a PDF."}
+
+    except Exception as e:
+        return {"response": f"**ERROR:** {str(e)}"}
