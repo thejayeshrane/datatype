@@ -1,8 +1,8 @@
 fastapi
 uvicorn
-httpx
 python-dotenv
+httpx
 pydantic
+python-multipart
 PyPDF2
 chromadb
-python-multipart
