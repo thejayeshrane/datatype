@@ -60,7 +60,7 @@ async def chat_endpoint(request: ChatRequest):
                     "model": "openai/gpt-4o-mini", # Smart model that supports tools
                     "messages": messages,
                     "tools": [calculate_schema],
-                    "tool_choice": {"type": "function", "function": {"name": "calculate"}}
+                    "tool_choice": "auto"
                 },
                 timeout=60.0 
             )
