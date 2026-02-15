@@ -7,9 +7,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import PyPDF2
 import chromadb
 from chromadb.utils import embedding_functions
-import PyPDF2
-import chromadb
-from chromadb.utils import embedding_functions
+
 
 # 1. Setup the Database (Lives in your RAM for speed)
 chroma_client = chromadb.Client()
