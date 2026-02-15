@@ -12,7 +12,13 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    # REPLACE ["*"] WITH THIS:
+    allow_origins=[
+        "http://localhost:5500",      # Allows your local testing
+        "http://127.0.0.1:5500",      # Allows your local testing IP
+        "https://datatype.org",       # Allows your live domain
+        "https://www.datatype.org"    # Allows the 'www' version
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
