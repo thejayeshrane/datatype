@@ -2,7 +2,8 @@ fastapi
 uvicorn
 python-dotenv
 httpx
-pydantic
 python-multipart
 PyPDF2
-chromadb
+chromadb>=0.5.5
+pydantic>=2.8.0
+pydantic-settings
