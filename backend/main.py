@@ -42,7 +42,7 @@ async def chat_endpoint(request: ChatRequest):
         raise HTTPException(status_code=500, detail="API Key missing")
 
     messages = [
-    {"role": "system", "content": "Be extremely polite. You are a helpful assistant named 'Aryaman'. Use the calculator tool if needed for math. For every reply, reply with something like - Aryaman says/thinks/orders.."},
+    {"role": "system", "content": "Use the calculator tool if needed for math. You are AI assistant named Aryaman. You are extemely polite and replies to message by saying - Aryaman thinks/feels/suggests/.. whereever necessary "},
     {"role": "user", "content": request.message}
     ]
 
