@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Echo Bot // Terminal</title>
     
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2339ff14' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='3'%3E%3C/circle%3E%3Ccircle cx='6' cy='12' r='3'%3E%3C/circle%3E%3Ccircle cx='18' cy='19' r='3'%3E%3C/circle%3E%3Cline x1='8.59' y1='13.51' x2='15.42' y2='17.49'%3E%3C/line%3E%3Cline x1='15.41' y1='6.51' x2='8.59' y2='10.49'%3E%3C/line%3E%3C/svg%3E">
@@ -18,10 +18,11 @@
     </script>
     
     <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #39ff14; }
+        /* Custom Scrollbar */
+        #terminal-output::-webkit-scrollbar { width: 8px; }
+        #terminal-output::-webkit-scrollbar-track { background: #000; }
+        #terminal-output::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        #terminal-output::-webkit-scrollbar-thumb:hover { background: #39ff14; }
         
         .typing-cursor::after {
             content: '█';
@@ -32,9 +33,10 @@
         @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
-<body class="bg-black text-gray-300 min-h-screen flex flex-col font-mono overflow-hidden">
 
-    <header class="border-b border-gray-800 bg-gray-900/50 p-4 flex justify-between items-center select-none">
+<body class="bg-black text-gray-300 h-[100dvh] flex flex-col font-mono overflow-hidden supports-[height:100cqh]:h-[100cqh]">
+
+    <header class="border-b border-gray-800 bg-gray-900/50 p-4 flex justify-between items-center select-none shrink-0">
         <div class="flex items-center gap-2">
             <a href="../index.html" class="text-gray-500 hover:text-white transition-colors mr-4">← EXIT</a>
             <span class="text-neon text-sm tracking-widest">ECHO BOT</span>
@@ -46,7 +48,7 @@
         </div>
     </header>
 
-    <main id="terminal-output" class="flex-grow p-6 overflow-y-auto space-y-4 text-sm md:text-base">
+    <main id="terminal-output" class="flex-grow p-4 md:p-6 overflow-y-auto space-y-4 text-sm md:text-base scroll-smooth">
         <div class="text-gray-500">
             <span class="text-neon">root@datatype:~$</span> ./init_neural_uplink.sh
         </div>
@@ -60,13 +62,15 @@
         </div>
     </main>
 
-    <footer class="p-4 bg-black border-t border-gray-800">
-        <form id="console-form" class="flex items-center gap-2 max-w-4xl mx-auto">
-            <span class="text-neon">></span>
-            <input type="text" id="user-input" 
-                class="flex-grow bg-transparent border-none outline-none text-white placeholder-gray-700 focus:ring-0" 
-                placeholder="Type command or message..." autocomplete="off" autofocus>
-            <button type="submit" class="text-gray-500 hover:text-neon transition-colors">SEND</button>
+    <footer class="p-4 bg-black border-t border-gray-800 shrink-0 pb-safe">
+        <form id="console-form" class="flex items-end gap-2 max-w-4xl mx-auto">
+            <span class="text-neon py-3">></span>
+            
+            <textarea id="user-input" rows="1"
+                class="flex-grow bg-transparent border-none outline-none text-white text-base placeholder-gray-700 focus:ring-0 resize-none overflow-hidden max-h-32 py-3 leading-relaxed" 
+                placeholder="Type command or message..." autofocus></textarea>
+            
+            <button type="submit" class="text-gray-500 hover:text-neon transition-colors py-3 px-2 font-bold text-sm">SEND</button>
         </form>
     </footer>
 
@@ -80,20 +84,40 @@
             output.scrollTop = output.scrollHeight;
         };
 
+        // Auto-Resize Textarea
+        const autoResize = () => {
+            input.style.height = 'auto'; 
+            input.style.height = input.scrollHeight + 'px';
+        };
+        input.addEventListener('input', autoResize);
+
+        // Handle Enter vs Shift+Enter
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                // Check if on mobile (touch device)
+                if (window.matchMedia("(pointer: coarse)").matches) {
+                     input.blur(); // Close keyboard on mobile send
+                }
+                form.requestSubmit();
+            }
+        });
+
         // Add Line to Terminal
         const addLine = (text, type = 'system') => {
             const div = document.createElement('div');
+            const formattedText = text.replace(/\n/g, '<br>');
             
             if (type === 'user') {
-                div.innerHTML = `<span class="text-gray-500">user@node-01:~$</span> <span class="text-white">${text}</span>`;
+                div.innerHTML = `<span class="text-gray-500">user@node-01:~$</span> <span class="text-white">${formattedText}</span>`;
             } else if (type === 'bot') {
-                div.innerHTML = `<span class="text-neon">[AI]:</span> ${text}`;
+                div.innerHTML = `<span class="text-neon">[AI]:</span> ${formattedText}`;
                 div.className = "text-gray-300";
             } else if (type === 'error') {
-                div.innerHTML = `<span class="text-red-500">[ERROR]:</span> ${text}`;
+                div.innerHTML = `<span class="text-red-500">[ERROR]:</span> ${formattedText}`;
                 div.className = "text-red-400";
             } else if (type === 'info') {
-                div.innerHTML = `<span class="text-yellow-500">[SYSTEM]:</span> ${text}`;
+                div.innerHTML = `<span class="text-yellow-500">[SYSTEM]:</span> ${formattedText}`;
                 div.className = "text-yellow-400 italic";
             }
             
@@ -101,49 +125,37 @@
             scrollToBottom();
         };
 
-        // --- NEW: ROBUST RETRY LOGIC (12 retries * 5s = 60s total) ---
+        // Robust Retry Logic (60s Timeout)
         const fetchWithRetry = async (url, options, retries = 12, delay = 5000) => {
             for (let i = 0; i < retries; i++) {
                 try {
                     const response = await fetch(url, options);
                     
-                    // If server is 502/503/504 (starting up), throw error to trigger retry
                     if ([502, 503, 504].includes(response.status)) {
                         throw new Error(`Server waking up (Status ${response.status})...`);
                     }
                     
-                    if (!response.ok) {
-                        throw new Error(`HTTP Error: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                     
-                    return await response.json(); // Success!
+                    return await response.json();
 
                 } catch (error) {
                     console.warn(`Attempt ${i + 1}/${retries} failed: ${error.message}`);
                     
-                    // If we have retries left, wait and try again
                     if (i < retries - 1) {
-                        // Only show the "Waking mainframe" message on the first failure
                         if (i === 0) {
                             addLine("...Uplink dormant. Waking mainframe (this may take 60s)...", 'info');
-                            
-                            // Re-add the loading animation since addLine might push it up
-                            const loader = document.getElementById('loading-line');
-                            if (loader) {
-                                output.appendChild(loader); 
-                                scrollToBottom();
-                            }
+                            scrollToBottom();
                         }
-                        
                         await new Promise(res => setTimeout(res, delay));
                     } else {
-                        throw error; // All retries failed
+                        throw error;
                     }
                 }
             }
         };
 
-        // Handle Form Submission
+        // Submit Handler
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const text = input.value.trim();
@@ -152,6 +164,7 @@
             // 1. Show User Input
             addLine(text, 'user');
             input.value = '';
+            input.style.height = 'auto'; // Reset height
 
             // 2. Show Loader
             const loadingDiv = document.createElement('div');
@@ -161,30 +174,31 @@
             scrollToBottom();
 
             try {
-                // 3. Use Smart Retry (Replace URL with your RENDER URL)
+                // 3. Send to Render
                 const data = await fetchWithRetry('https://datatype-backend.onrender.com/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text })
                 });
 
-                // Success: Remove loader and show reply
                 const loader = document.getElementById('loading-line');
                 if (loader) loader.remove();
                 addLine(data.reply, 'bot');
 
             } catch (error) {
-                // Failure: Remove loader and show error
                 const loader = document.getElementById('loading-line');
                 if (loader) loader.remove();
-                
-                console.error('Final Error:', error);
                 addLine("Uplink failed. System is offline.", 'error');
             }
         });
 
-        // Focus input on load
-        window.onload = () => input.focus();
+        // Focus logic
+        window.onload = () => {
+             // Only auto-focus on desktop to prevent keyboard popping up on mobile load
+             if (!window.matchMedia("(pointer: coarse)").matches) {
+                 input.focus();
+             }
+        };
     </script>
 </body>
 </html>
