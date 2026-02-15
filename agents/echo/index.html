@@ -105,24 +105,36 @@
             addLine(text, 'user');
             input.value = '';
 
-            // 2. Send to Backend using Fetch API
+            // 2. CREATE LOADING INDICATOR
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading-line';
+            loadingDiv.innerHTML = `<span class="text-neon animate-pulse">[THINKING...]</span>`;
+            output.appendChild(loadingDiv);
+            scrollToBottom();
+
             try {
-                const response = await fetch('https://datatype-backend.onrender.com/chat', {
+                const response = await fetch('https://your-render-app.onrender.com/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text })
                 });
 
+                // 3. REMOVE LOADING INDICATOR
+                const loader = document.getElementById('loading-line');
+                if (loader) loader.remove();
+
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 
                 const data = await response.json();
-                
-                // 3. Display AI Response from your Python backend
                 addLine(data.reply, 'bot');
 
             } catch (error) {
+                // Remove loader even if there is an error
+                const loader = document.getElementById('loading-line');
+                if (loader) loader.remove();
+                
                 console.error('Fetch error:', error);
-                addLine("Connection Error: Is the backend running? (uvicorn main:app --reload)", 'error');
+                addLine("Connection Error: Backend may be sleeping.", 'error');
             }
         });
 
