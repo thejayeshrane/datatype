@@ -1,3 +1,12 @@
+# --- MAGIC FIX FOR RENDER SQLITE ERROR ---
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# -----------------------------------------
+
+import PyPDF2
+import chromadb
+from chromadb.utils import embedding_function
 import PyPDF2
 import chromadb
 from chromadb.utils import embedding_functions
