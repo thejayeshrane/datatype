@@ -24,11 +24,12 @@ def home():
 async def agent_pdf(file: UploadFile = File(None), question: str = Form(None)):
     try:
         # SCENARIO 1: User Uploads a File
+        # FIND THIS BLOCK (Inside @app.post("/agent/pdf")):
         if file:
             content = await file.read()
-            # Send to our PDF Engine
             chunks = ingest_pdf(content, file.filename) 
-            return {"response": f"**UPLOAD COMPLETE:** Processed {file.filename} into {chunks} memory fragments. Ready for analysis."}
+            # DELETE THE OLD RETURN LINE AND USE THIS ONE:
+            return {"response": f"**SYSTEM:** {file.filename} encrypted and ingested. Ready for interrogation."}
         
         # SCENARIO 2: User Asks a Question
         if question:
