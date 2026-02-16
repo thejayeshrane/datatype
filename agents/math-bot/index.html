@@ -73,7 +73,7 @@
             : 'bg-neon/10 text-neon self-start rounded-tl-none border border-neon/30 shadow-[0_0_15px_rgba(57,255,20,0.1)]'
         }`;
         
-        msgDiv.innerHTML = isUser ? text : `<strong>Result:</strong> ${text}`;
+        msgDiv.innerHTML = isUser ? text : ${text}`;
         chatContainer.appendChild(msgDiv);
         
         // Auto-scroll to bottom
