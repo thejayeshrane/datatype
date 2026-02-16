@@ -7,14 +7,17 @@ app = FastAPI()
 # Without this, the browser will block the connection.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, we change this to your domain
+    allow_origins=[
+    "https://datatype.org", 
+    "http://127.0.0.1:5500", 
+    "http://localhost:8000"], # This needs to work  on localhost for testing and on domain as well.
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 @app.get("/")
 def health_check():
-    return {"status": "Online", "agent": "Math-Engine-002"}
+    return {"status": "Online", "agent": "Math-Engine-001"}
 
 @app.get("/calculate")
 def calculate(expression: str):
