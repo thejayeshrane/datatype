@@ -162,7 +162,7 @@
     <script>
         function revealConsole() {
             document.getElementById('landingPage').style.transform = 'translateY(-100vh)';
-            loadAgent('echo-bot'); 
+            loadAgent('math-bot'); 
         }
 
         function loadAgent(folderName) {
@@ -176,8 +176,8 @@
             });
 
             // Determine Active ID
-            let activeBtnId = 'btn-echo';
-            if (folderName === 'math-bot') activeBtnId = 'btn-math';
+            let activeBtnId = 'btn-math'; // Set Math Bot as the primary default
+            if (folderName === 'echo-bot') activeBtnId = 'btn-echo';
             if (folderName === 'base-template') activeBtnId = 'btn-base';
 
             // Highlight Active Button
