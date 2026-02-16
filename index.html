@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>datatype.org</title>
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2339ff14' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='3'%3E%3C/circle%3E%3Ccircle cx='6' cy='12' r='3'%3E%3C/circle%3E%3Ccircle cx='18' cy='19' r='3'%3E%3C/circle%3E%3Cline x1='8.59' y1='13.51' x2='15.42' y2='17.49'%3E%3C/line%3E%3Cline x1='15.41' y1='6.51' x2='8.59' y2='10.49'%3E%3C/line%3E%3C/svg%3E">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -25,63 +23,59 @@
             }
         }
     </script>
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2339ff14' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='3'%3E%3C/circle%3E%3Ccircle cx='6' cy='12' r='3'%3E%3C/circle%3E%3Ccircle cx='18' cy='19' r='3'%3E%3C/circle%3E%3Cline x1='8.59' y1='13.51' x2='15.42' y2='17.49'%3E%3C/line%3E%3Cline x1='15.41' y1='6.51' x2='8.59' y2='10.49'%3E%3C/line%3E%3C/svg%3E">
 </head>
-<body class="bg-black text-gray-100 antialiased overflow-hidden h-screen w-screen relative font-inter">
+<body class="bg-black text-gray-100 flex flex-col h-screen antialiased relative overflow-hidden font-inter">
 
-    <div id="landingPage" class="fixed inset-0 z-[60] bg-black flex flex-col min-h-screen transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] overflow-y-auto">
+    <div id="landingPage" class="fixed inset-0 z-[100] bg-black flex flex-col min-h-screen transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] overflow-y-auto">
         
-        <header class="py-4 md:py-6 px-6 md:px-12 flex justify-between items-center z-20">
-            <div class="flex items-center gap-3 group transition-all duration-300 cursor-pointer" onclick="location.reload()">
-                <svg class="w-8 h-8 text-neon opacity-90 drop-shadow-[0_0_8px_rgba(57,255,20,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="18" cy="5" r="3"></circle>
-                    <circle cx="6" cy="12" r="3"></circle>
-                    <circle cx="18" cy="19" r="3"></circle>
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        <header class="py-6 px-6 md:px-12 flex justify-between items-center relative z-20">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
+                <svg class="w-8 h-8 text-neon opacity-90 drop-shadow-[0_0_8px_rgba(57,255,20,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                 </svg>
-                <div class="text-xl font-bold tracking-tight text-white">
-                    datatype<span class="text-neon">.org</span>
-                </div>
+                <div class="text-xl font-bold tracking-tight text-white">datatype<span class="text-neon">.org</span></div>
             </div>
         </header>
 
-        <main class="flex-grow flex items-center px-6 md:px-16 lg:px-24 py-4 md:py-12 z-10">
+        <main class="flex-grow flex items-center px-6 md:px-16 lg:px-24 py-12 relative z-10">
             <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 
-                <div class="space-y-10 md:space-y-12 order-last lg:order-first">
+                <div class="space-y-12 order-2 lg:order-1">
                     <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight drop-shadow-2xl">
                         A research lab for <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-200">everything <span class="flowing-underline text-white cursor-default">data</span></span><span class="text-neon">.</span>
                     </h1>
 
-                    <div class="flex flex-wrap gap-8 md:gap-12">
-                        <div class="flex flex-col gap-3 min-w-[80px] group cursor-pointer">
+                    <div class="flex flex-wrap gap-12">
+                        <div class="flex flex-col gap-3 group cursor-pointer" onclick="revealConsole()">
                             <span class="material-symbols-outlined text-3xl text-gray-200 group-hover:text-neon transition-colors">search</span>
                             <div class="text-sm font-medium leading-snug text-gray-200 group-hover:text-white transition-colors">Data <br> Discovery</div>
                         </div>
-                        <div class="flex flex-col gap-3 min-w-[80px] group cursor-pointer">
+                        <div class="flex flex-col gap-3 group cursor-pointer" onclick="revealConsole()">
                             <span class="material-symbols-outlined text-3xl text-gray-200 group-hover:text-neon transition-colors">science</span>
                             <div class="text-sm font-medium leading-snug text-gray-200 group-hover:text-white transition-colors">Agentic <br> Research</div>
                         </div>
-                        <div class="flex flex-col gap-3 min-w-[80px] group cursor-pointer">
+                        <div class="flex flex-col gap-3 group cursor-pointer">
                             <span class="material-symbols-outlined text-3xl text-gray-200 group-hover:text-neon transition-colors">verified_user</span>
                             <div class="text-sm font-medium leading-snug text-gray-200 group-hover:text-white transition-colors">Integrity <br> Testing</div>
                         </div>
                     </div>
 
-                    <button id="enterBtn" class="inline-block w-full sm:w-auto border border-neon/50 text-neon px-8 py-3 font-medium rounded-md hover:bg-neon hover:text-black hover:shadow-[0_0_15px_rgba(57,255,20,0.4)] transition-all duration-500 tracking-wide text-center">
+                    <button onclick="revealConsole()" class="inline-block w-full sm:w-auto border border-neon/50 text-neon px-8 py-3 font-medium rounded-md hover:bg-neon hover:text-black hover:shadow-[0_0_15px_rgba(57,255,20,0.4)] transition-all duration-500 tracking-wide text-center">
                         Access AI Agents
                     </button>
                 </div>
 
-                <div class="flex justify-center items-center lg:justify-end z-10 order-first lg:order-last mb-8 lg:mb-0">
+                <div class="flex justify-center items-center lg:justify-end order-1 lg:order-2 mb-8 lg:mb-0">
                     <div class="relative w-80 h-80 sm:w-[450px] sm:h-[450px] lg:w-[650px] lg:h-[650px] animate-float">
                         <div class="absolute inset-0 bg-neon/5 rounded-full blur-[80px]"></div>
-                        <svg class="w-full h-full drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-full h-full drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g class="network-group">
                                 <path d="M100 280 L200 200 L300 280 L200 350 Z" stroke="#666" stroke-width="1.5" stroke-opacity="0.6"/>
                                 <path d="M200 200 L200 100 L120 160 L200 200" stroke="#666" stroke-width="1.5" stroke-opacity="0.6"/>
@@ -89,177 +83,122 @@
                                 <path d="M120 160 L60 200 L100 280" stroke="#666" stroke-width="1.5" stroke-opacity="0.6"/>
                                 <path d="M280 160 L340 200 L300 280" stroke="#666" stroke-width="1.5" stroke-opacity="0.6"/>
                                 <path d="M200 350 L200 200" stroke="#666" stroke-width="1.5" stroke-opacity="0.6"/>
-                                <defs>
-                                    <radialGradient id="sphereGrad" cx="30%" cy="30%" r="70%">
-                                        <stop offset="0%" style="stop-color: #fff; stop-opacity: 1" />
-                                        <stop offset="100%" style="stop-color: #888; stop-opacity: 1" />
-                                    </radialGradient>
-                                </defs>
-                                <circle cx="200" cy="100" r="10" fill="url(#sphereGrad)" />
-                                <circle cx="120" cy="160" r="8" fill="url(#sphereGrad)" />
-                                <circle cx="280" cy="160" r="8" fill="url(#sphereGrad)" />
-                                <circle cx="60" cy="200" r="7" fill="url(#sphereGrad)" />
-                                <circle cx="200" cy="200" r="12" fill="url(#sphereGrad)" />
-                                <circle cx="340" cy="200" r="7" fill="url(#sphereGrad)" />
-                                <circle cx="100" cy="280" r="9" fill="url(#sphereGrad)" />
-                                <circle cx="300" cy="280" r="9" fill="url(#sphereGrad)" />
-                                <circle cx="200" cy="350" r="10" fill="url(#sphereGrad)" />
+                                <defs><radialGradient id="sphereGrad" cx="30%" cy="30%" r="70%"><stop offset="0%" style="stop-color: #fff; stop-opacity: 1" /><stop offset="100%" style="stop-color: #888; stop-opacity: 1" /></radialGradient></defs>
+                                <circle cx="200" cy="100" r="10" fill="url(#sphereGrad)" /><circle cx="120" cy="160" r="8" fill="url(#sphereGrad)" /><circle cx="280" cy="160" r="8" fill="url(#sphereGrad)" /><circle cx="60" cy="200" r="7" fill="url(#sphereGrad)" /><circle cx="200" cy="200" r="12" fill="url(#sphereGrad)" /><circle cx="340" cy="200" r="7" fill="url(#sphereGrad)" /><circle cx="100" cy="280" r="9" fill="url(#sphereGrad)" /><circle cx="300" cy="280" r="9" fill="url(#sphereGrad)" /><circle cx="200" cy="350" r="10" fill="url(#sphereGrad)" />
                             </g>
                         </svg>
                     </div>
                 </div>
             </div>
         </main>
-
-        <footer class="py-8 px-6 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400 gap-4 md:gap-0 mt-auto z-20">
+        
+        <footer class="py-8 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400 gap-6 md:gap-0 mt-auto relative z-20">
             <div class="flex gap-8">
                 <a href="#" class="hover:text-neon transition-colors">About</a>
                 <a href="#" class="hover:text-neon transition-colors">Lab Notes</a>
                 <a href="#" class="hover:text-neon transition-colors">Contact</a>
             </div>
-            <div class="font-mono text-xs text-gray-500 uppercase tracking-widest">
-                © 2026 datatype.org
-            </div>
+            <div class="font-mono text-xs text-gray-500 uppercase tracking-widest">© 2026 datatype.org</div>
         </footer>
     </div>
 
-
     <div id="consoleApp" class="absolute inset-0 z-0 flex h-full w-full bg-black">
         
-        <div id="sidebarOverlay" class="fixed inset-0 bg-black/80 z-40 hidden md:hidden glass-overlay"></div>
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black/80 z-40 hidden md:hidden glass-overlay" onclick="toggleSidebar()"></div>
 
         <aside id="consoleSidebar" class="fixed inset-y-0 left-0 z-50 w-[280px] bg-darkbg border-r border-[#262626] transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col p-6 md:static md:flex">
             
-            <button id="closeSidebarBtn" class="md:hidden absolute top-4 right-4 text-gray-500 hover:text-white">
+            <button class="md:hidden absolute top-4 right-4 text-gray-500 hover:text-white" onclick="toggleSidebar()">
                 <span class="material-symbols-outlined">close</span>
             </button>
 
-            <div class="brand-header flex items-center gap-2 mb-10 pl-2 cursor-pointer group" onclick="location.reload()">
-                <svg class="w-7 h-7 text-neon group-hover:drop-shadow-[0_0_8px_rgba(57,255,20,0.5)] transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="18" cy="5" r="3"></circle>
-                    <circle cx="6" cy="12" r="3"></circle>
-                    <circle cx="18" cy="19" r="3"></circle>
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                </svg>
+            <div class="brand-header flex items-center gap-2 mb-10 pl-2 cursor-pointer" onclick="location.reload()">
+                <svg class="w-7 h-7 text-neon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                 <span class="font-bold text-white text-base tracking-tight">datatype.org</span>
             </div>
 
-            <div class="flex-1 overflow-y-auto">
+            <div class="flex-1 overflow-y-auto space-y-2">
                 <div class="text-[11px] uppercase text-[#666] mb-3 pl-3 font-semibold tracking-wider">Active Agents</div>
                 
-                <div class="nav-item active flex items-center gap-3 p-3 rounded-lg mb-1 cursor-pointer bg-[rgba(57,255,20,0.1)] border border-[rgba(57,255,20,0.2)]">
-                    <span class="material-symbols-outlined text-neon text-[20px]">chat</span>
-                    <div class="flex flex-col">
-                        <span class="text-[13px] font-medium text-neon">Echo Bot</span>
-                        <span class="text-[10px] text-neon/60 font-mono">ID: 001</span>
-                    </div>
-                </div>
+                <button id="btn-echo" onclick="loadAgent('echo-bot')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
+                    <span class="material-symbols-outlined text-[20px]">chat</span>
+                    <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Echo Bot</span><span class="text-[10px] opacity-60 font-mono">ID: 001</span></div>
+                </button>
 
-                <div class="nav-item flex items-center gap-3 p-3 rounded-lg mb-1 cursor-pointer text-[#888] hover:text-white hover:bg-[#111] transition-colors">
+                <button id="btn-math" onclick="loadAgent('math-bot')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
                     <span class="material-symbols-outlined text-[20px]">calculate</span>
-                    <div class="flex flex-col">
-                        <span class="text-[13px] font-medium">Arya-Man</span>
-                        <span class="text-[10px] opacity-60 font-mono">ID: 002</span>
-                    </div>
-                </div>
+                    <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Math Bot</span><span class="text-[10px] opacity-60 font-mono">ID: 002</span></div>
+                </button>
 
-                <div class="nav-item flex items-center gap-3 p-3 rounded-lg mb-1 cursor-pointer text-[#888] hover:text-white hover:bg-[#111] transition-colors">
-                    <span class="material-symbols-outlined text-[20px]">description</span>
-                    <div class="flex flex-col">
-                        <span class="text-[13px] font-medium">PDF Analyst</span>
-                        <span class="text-[10px] opacity-60 font-mono">ID: 003</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-auto">
-                <div class="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-dashed border-[#333] text-[#888] hover:text-neon hover:border-neon transition-colors">
-                    <span class="material-symbols-outlined text-[20px]">add</span>
-                    <div class="flex flex-col">
-                        <span class="text-[13px] font-medium">Deploy New Agent</span>
-                        <span class="text-[10px] opacity-60 font-mono">Available Slot</span>
-                    </div>
-                </div>
+                <button id="btn-base" onclick="loadAgent('base-template')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
+                    <span class="material-symbols-outlined text-[20px]">extension</span>
+                    <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Base Template</span><span class="text-[10px] opacity-60 font-mono">ID: 000</span></div>
+                </button>
             </div>
         </aside>
 
-        <main class="flex-1 flex flex-col relative bg-grid-pattern w-full">
-            <header class="relative flex items-center justify-between md:justify-between px-4 md:px-6 py-4 border-b border-[#1a1a1a] md:border-none bg-black/50 backdrop-blur-md md:bg-transparent">
-                
-                <button id="burgerBtn" class="md:hidden text-white hover:text-neon z-20">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
-
-                <div class="absolute left-1/2 transform -translate-x-1/2 md:hidden z-10">
-                    <a href="#" onclick="location.reload()" class="flex items-center gap-2 group">
-                        <svg class="w-6 h-6 text-neon opacity-90 group-hover:drop-shadow-[0_0_8px_rgba(57,255,20,0.5)] transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="18" cy="5" r="3"></circle>
-                            <circle cx="6" cy="12" r="3"></circle>
-                            <circle cx="18" cy="19" r="3"></circle>
-                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        <main class="flex-1 flex flex-col relative bg-black w-full h-full">
+            
+            <div class="md:hidden flex justify-between items-center p-4 border-b border-[#222] bg-black">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="text-white hover:text-neon">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+                        <svg class="w-5 h-5 text-neon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                         </svg>
                         <span class="font-bold text-white text-sm tracking-tight">datatype.org</span>
-                    </a>
-                </div>
-
-                <div class="text-xs text-[#888] font-mono hidden md:block">Agents / Echo Bot / Terminal</div>
-                
-                <div class="z-20">
-                    <div class="md:hidden relative flex h-3 w-3">
-                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon opacity-75"></span>
-                         <span class="relative inline-flex rounded-full h-3 w-3 bg-neon box-shadow-[0_0_8px_#39ff14]"></span>
                     </div>
-
-                    <div class="hidden md:flex items-center gap-2 text-[10px] border border-neon px-3 py-1 rounded-full text-neon font-semibold tracking-wider bg-black/50 shadow-[0_0_10px_rgba(57,255,20,0.2)]">
-                        <div class="w-1.5 h-1.5 bg-neon rounded-full animate-pulse"></div>
-                        SYSTEM ONLINE
-                    </div>
-                </div>
-            </header>
-
-            <div class="flex-1 flex flex-col justify-center items-center overflow-y-auto px-4">
-                <div class="text-center text-[#888] animate-fade-in-up">
-                    <span class="material-symbols-outlined text-6xl mb-6 text-neon drop-shadow-[0_0_15px_rgba(57,255,20,0.4)]">terminal</span>
-                    <h1 class="text-3xl text-white font-medium mb-3">Echo Bot Initialized</h1>
-                    <p class="text-sm opacity-70">Latency test active. Awaiting input sequence.</p>
                 </div>
             </div>
 
-            <div class="w-full max-w-[800px] mx-auto px-4 pb-6 md:pb-8">
-                <div class="bg-panel border border-[#262626] rounded-3xl p-2 flex items-center gap-2 focus-within:border-[#888] focus-within:bg-[#0f0f0f] focus-within:shadow-[0_0_15px_rgba(255,255,255,0.05)] transition-all">
-                    <button class="p-2 rounded-full text-[#888] hover:text-white hover:bg-[#222] transition-colors">
-                        <span class="material-symbols-outlined text-[22px]">add_circle</span>
-                    </button>
-                    <input type="text" placeholder="Enter command or message..." class="flex-1 bg-transparent border-none text-white text-[15px] outline-none p-2 placeholder-[#555]">
-                    <button class="p-2 rounded-full text-[#888] hover:text-white hover:bg-[#222] transition-colors">
-                        <span class="material-symbols-outlined text-[22px]">mic</span>
-                    </button>
-                    <button class="p-2 rounded-full text-neon hover:bg-[rgba(57,255,20,0.1)] transition-colors">
-                        <span class="material-symbols-outlined text-[22px]">send</span>
-                    </button>
-                </div>
-                <div class="text-center text-[10px] text-[#444] mt-3">
-                    Datatype AI may display inaccurate information. Verify critical data.
-                </div>
-            </div>
+            <iframe id="agentFrame" src="" class="w-full h-full border-none opacity-0 transition-opacity duration-500" title="Agent View"></iframe>
         </main>
     </div>
 
     <script>
-        // Homepage Slide Up
-        document.getElementById('enterBtn').addEventListener('click', function() {
+        function revealConsole() {
             document.getElementById('landingPage').style.transform = 'translateY(-100vh)';
-        });
+            loadAgent('echo-bot'); 
+        }
 
-        // Console Sidebar Logic
-        const sidebar = document.getElementById('consoleSidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        const burgerBtn = document.getElementById('burgerBtn');
-        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        function loadAgent(folderName) {
+            const frame = document.getElementById('agentFrame');
+            const buttons = document.querySelectorAll('.nav-btn');
+            
+            // Reset Button Styles
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-neon/10', 'text-neon', 'border-neon/30');
+                btn.classList.add('text-[#888]');
+            });
+
+            // Determine Active ID
+            let activeBtnId = 'btn-echo';
+            if (folderName === 'math-bot') activeBtnId = 'btn-math';
+            if (folderName === 'base-template') activeBtnId = 'btn-base';
+
+            // Highlight Active Button
+            const activeBtn = document.getElementById(activeBtnId);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-[#888]');
+                activeBtn.classList.add('bg-neon/10', 'text-neon', 'border-neon/30');
+            }
+
+            // Fade Effect for Iframe
+            frame.style.opacity = '0';
+            setTimeout(() => {
+                frame.src = `agents/${folderName}/index.html`;
+                frame.onload = () => { frame.style.opacity = '1'; };
+            }, 200);
+
+            // Auto-close sidebar on mobile
+            if(window.innerWidth < 768) toggleSidebar();
+        }
 
         function toggleSidebar() {
+            const sidebar = document.getElementById('consoleSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
             const isClosed = sidebar.classList.contains('-translate-x-full');
             if (isClosed) {
                 sidebar.classList.remove('-translate-x-full');
@@ -269,10 +208,6 @@
                 overlay.classList.add('hidden');
             }
         }
-
-        burgerBtn.addEventListener('click', toggleSidebar);
-        closeSidebarBtn.addEventListener('click', toggleSidebar);
-        overlay.addEventListener('click', toggleSidebar);
     </script>
 </body>
 </html>
