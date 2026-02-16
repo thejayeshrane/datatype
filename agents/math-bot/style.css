@@ -21,3 +21,13 @@
 ::-webkit-scrollbar-track { background: #000; }
 ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #39ff14; }
+
+/* Ensure the container stacks items from top to bottom */
+#chatContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Specific styling for user vs bot alignment */
+.self-end { align-self: flex-end; }
+.self-start { align-self: flex-start; }

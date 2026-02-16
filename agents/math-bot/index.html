@@ -30,23 +30,84 @@
         </div>
     </header>
 
-    <div class="flex-1 flex flex-col justify-center items-center px-4 overflow-y-auto">
+    <!-- <div class="flex-1 flex flex-col justify-center items-center px-4 overflow-y-auto">
         <div class="text-center text-[#888] animate-fade-in-up">
             <span class="material-symbols-outlined text-6xl mb-6 text-neon drop-shadow-[0_0_15px_rgba(57,255,20,0.4)]">calculate</span>
             <h1 class="text-3xl text-white font-medium mb-3">Math Bot Ready</h1>
             <p class="text-sm opacity-70">Calculation engine active. Awaiting formula.</p>
         </div>
+    </div> -->
+
+    <div id="chatContainer" class="flex-1 flex flex-col gap-4 p-6 overflow-y-auto">
+    <div class="text-center text-[#888] mt-20 animate-fade-in-up" id="welcomeMsg">
+        <span class="material-symbols-outlined text-6xl mb-6 text-neon drop-shadow-[0_0_15px_rgba(57,255,20,0.4)]">calculate</span>
+        <h1 class="text-3xl text-white font-medium mb-3">Math Bot Ready</h1>
+        <p class="text-sm opacity-70">Calculation engine active. Awaiting formula.</p>
+    </div>
     </div>
 
     <div class="w-full max-w-[800px] mx-auto px-4 pb-6 shrink-0 pt-4 bg-transparent">
         <div class="bg-[#0a0a0a] border border-[#262626] rounded-3xl p-2 flex items-center gap-2 focus-within:border-[#888] focus-within:bg-[#0f0f0f] transition-all shadow-lg">
             <button class="p-2 rounded-full text-[#888] hover:text-white hover:bg-[#222]"><span class="material-symbols-outlined">add_circle</span></button>
-            <input type="text" placeholder="Enter calculation..." class="flex-1 bg-transparent border-none text-white text-[15px] outline-none p-2 placeholder-[#555]">
-            <button class="p-2 rounded-full text-[#888] hover:text-white hover:bg-[#222]"><span class="material-symbols-outlined">mic</span></button>
-            <button class="p-2 rounded-full text-neon hover:bg-[rgba(57,255,20,0.1)]"><span class="material-symbols-outlined">send</span></button>
+            <input id="mathInput" type="text" placeholder="Enter calculation..."  class="flex-1 bg-transparent border-none text-white text-[15px] outline-none p-2 placeholder-[#555]">
+            <button id="sendBtn" class="p-2 rounded-full text-neon hover:bg-[rgba(57,255,20,0.1)]">
+            <span class="material-symbols-outlined">send</span>
+            </button>
         </div>
         <div class="text-center text-[10px] text-[#444] mt-3">Datatype AI may display inaccurate information. Verify critical data.</div>
     </div>
+    <script>
+    const mathInput = document.getElementById('mathInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const chatContainer = document.getElementById('chatContainer');
+    const welcomeMsg = document.getElementById('welcomeMsg');
+
+    function addMessage(text, isUser = false) {
+        // Remove welcome message on first interaction
+        if (welcomeMsg) welcomeMsg.remove();
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `max-w-[80%] p-3 rounded-2xl text-[15px] animate-fade-in-up ${
+            isUser 
+            ? 'bg-[#1a1a1a] text-white self-end rounded-tr-none border border-[#333]' 
+            : 'bg-neon/10 text-neon self-start rounded-tl-none border border-neon/30 shadow-[0_0_15px_rgba(57,255,20,0.1)]'
+        }`;
+        
+        msgDiv.innerHTML = isUser ? text : `<strong>Result:</strong> ${text}`;
+        chatContainer.appendChild(msgDiv);
+        
+        // Auto-scroll to bottom
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    async function processCalculation() {
+        const expression = mathInput.value.trim();
+        if (!expression) return;
+
+        // 1. Add user's question to the UI
+        addMessage(expression, true);
+        mathInput.value = '';
+
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/calculate?expression=${encodeURIComponent(expression)}`);
+            const data = await response.json();
+
+            if (data.status === "success") {
+                // 2. Add bot's answer to the UI
+                setTimeout(() => addMessage(data.answer, false), 500);
+            } else {
+                addMessage("Error: " + data.detail, false);
+            }
+        } catch (error) {
+            addMessage("Backend unreachable. Ensure uvicorn is running on port 8000.", false);
+        }
+    }
+
+    sendBtn.addEventListener('click', processCalculation);
+    mathInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') processCalculation();
+    });
+    </script>
 
 </body>
 </html>
