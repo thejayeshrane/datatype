@@ -53,11 +53,11 @@
                     </h1>
 
                     <div class="flex flex-wrap gap-12">
-                        <div class="flex flex-col gap-3 group cursor-pointer" onclick="revealConsole()">
+                        <div class="flex flex-col gap-3 group cursor-pointer" onclick="revealConsole('data-discovery')">
                             <span class="material-symbols-outlined text-3xl text-gray-200 group-hover:text-neon transition-colors">search</span>
                             <div class="text-sm font-medium leading-snug text-gray-200 group-hover:text-white transition-colors">Data <br> Discovery</div>
                         </div>
-                        <div class="flex flex-col gap-3 group cursor-pointer" onclick="revealConsole()">
+                        <div class="flex flex-col gap-3 group cursor-pointer" onclick="revealConsole('math-bot')">
                             <span class="material-symbols-outlined text-3xl text-gray-200 group-hover:text-neon transition-colors">science</span>
                             <div class="text-sm font-medium leading-snug text-gray-200 group-hover:text-white transition-colors">Agentic <br> Research</div>
                         </div>
@@ -131,6 +131,11 @@
                     <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Echo Bot</span><span class="text-[10px] opacity-60 font-mono">ID: 002</span></div>
                 </button>
 
+                <button id="btn-data" onclick="loadAgent('data-discovery')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
+                    <span class="material-symbols-outlined text-[20px]">database</span>
+                    <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Data Discovery</span><span class="text-[10px] opacity-60 font-mono">ID: 003</span></div>
+                </button>
+
 
                 <!-- <button id="btn-base" onclick="loadAgent('base-template')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
                     <span class="material-symbols-outlined text-[20px]">extension</span>
@@ -160,9 +165,9 @@
     </div>
 
     <script>
-        function revealConsole() {
+        function revealConsole(agentName = 'math-bot') {
             document.getElementById('landingPage').style.transform = 'translateY(-100vh)';
-            loadAgent('math-bot'); 
+            loadAgent(agentName); 
         }
 
         function loadAgent(folderName) {
@@ -179,6 +184,7 @@
             let activeBtnId = 'btn-math'; // Set Math Bot as the primary default
             if (folderName === 'echo-bot') activeBtnId = 'btn-echo';
             if (folderName === 'base-template') activeBtnId = 'btn-base';
+            if (folderName === 'data-discovery') activeBtnId = 'btn-data';
 
             // Highlight Active Button
             const activeBtn = document.getElementById(activeBtnId);

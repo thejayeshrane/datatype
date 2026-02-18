@@ -16,7 +16,7 @@
     <header class="flex justify-between items-center px-6 py-4 border-b border-[#1a1a1a] bg-black/50 backdrop-blur-sm">
         <div class="text-xs text-[#888] font-mono">Agents / Data Discovery / Analytics</div>
         <div class="flex items-center gap-2 text-[10px] border border-neon px-3 py-1 rounded-full text-neon font-semibold tracking-wider bg-black/50 shadow-[0_0_10px_rgba(57,255,20,0.2)]">
-            <div class="w-1.5 h-1.5 bg-neon rounded-full animate-pulse"></div>DISCOVERY ACTIVE
+            <div class="w-1.5 h-1.5 bg-neon rounded-full animate-pulse"></div>SYSTEM ONLINE
         </div>
     </header>
 
@@ -54,61 +54,6 @@
         </div>
     </div>
 
-    <script>
-        const runBtn = document.getElementById('runBtn');
-        const input = document.getElementById('commandInput');
-        const revenueVal = document.getElementById('revenueVal');
-        const bestSellerVal = document.getElementById('bestSellerVal');
-        const heading = document.getElementById('discoveryHeading');
-        const labelLeft = document.getElementById('labelLeft');
-        const labelRight = document.getElementById('labelRight');
-
-        async function triggerDiscovery() {
-            const query = input.value.trim().toLowerCase();
-            if (!query) return;
-
-            try {
-                let data;
-                if (query.includes('for')) {
-                    const product = query.split('for')[1].trim();
-                    const response = await fetch(`http://127.0.0.1:8001/product/${product}`);
-                    data = await response.json();
-                    
-                    if (data.error) {
-                        alert(data.error);
-                        return;
-                    }
-
-                    // Update UI for specific product
-                    heading.innerText = `Product: ${data.product}`;
-                    labelLeft.innerText = "Product Revenue";
-                    labelRight.innerText = "Units Sold";
-                    revenueVal.innerText = `$${data.revenue.toLocaleString()}`;
-                    bestSellerVal.innerText = `${data.units} Units`;
-                } 
-                else {
-                    const response = await fetch('http://127.0.0.1:8001/stats');
-                    data = await response.json();
-                    
-                    // Update UI for Global Stats
-                    heading.innerText = "Global Statistics";
-                    labelLeft.innerText = "Total Revenue";
-                    labelRight.innerText = "Top Product";
-                    revenueVal.innerText = `$${data.total_revenue.toLocaleString()}`;
-                    bestSellerVal.innerText = data.best_seller;
-                }
-
-                // Show results, hide instructions
-                document.getElementById('instructions').classList.add('hidden');
-                document.getElementById('resultsGrid').classList.remove('hidden');
-                input.value = '';
-            } catch (err) {
-                alert('Server connection failed. Check Port 8001.');
-            }
-        }
-
-        runBtn.addEventListener('click', triggerDiscovery);
-        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') triggerDiscovery(); });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
