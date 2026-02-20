@@ -112,15 +112,16 @@
                 <span class="material-symbols-outlined">close</span>
             </button>
 
-            <div class="brand-header flex items-center gap-2 mb-10 pl-2 cursor-pointer" onclick="location.reload()">
-                <svg class="w-7 h-7 text-neon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                <span class="font-bold text-white text-base tracking-tight">datatype.org</span>
+            <div class="brand-header flex items-center gap-3 mb-10 pl-2 cursor-pointer" onclick="location.reload()">
+                <svg class="w-8 h-8 text-neon opacity-90 drop-shadow-[0_0_8px_rgba(57,255,20,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                <div class="text-xl font-bold tracking-tight text-white">datatype<span class="text-neon">.org</span></div>
             </div>
 
             <div class="flex-1 overflow-y-auto space-y-2">
                 <div class="text-[11px] uppercase text-[#666] mb-3 pl-3 font-semibold tracking-wider">Active Agents</div>
                 
-
                 <button id="btn-math" onclick="loadAgent('math-bot')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
                     <span class="material-symbols-outlined text-[20px]">calculate</span>
                     <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Math Bot</span><span class="text-[10px] opacity-60 font-mono">ID: 001</span></div>
@@ -135,12 +136,6 @@
                     <span class="material-symbols-outlined text-[20px]">database</span>
                     <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Data Discovery</span><span class="text-[10px] opacity-60 font-mono">ID: 003</span></div>
                 </button>
-
-
-                <!-- <button id="btn-base" onclick="loadAgent('base-template')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
-                    <span class="material-symbols-outlined text-[20px]">extension</span>
-                    <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Base Template</span><span class="text-[10px] opacity-60 font-mono">ID: 000</span></div>
-                </button> -->
             </div>
         </aside>
 
@@ -152,10 +147,10 @@
                         <span class="material-symbols-outlined">menu</span>
                     </button>
                     <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
-                        <svg class="w-5 h-5 text-neon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="w-5 h-5 text-neon opacity-90 drop-shadow-[0_0_8px_rgba(57,255,20,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                         </svg>
-                        <span class="font-bold text-white text-sm tracking-tight">datatype.org</span>
+                        <span class="font-bold text-white text-sm tracking-tight">datatype<span class="text-neon">.org</span></span>
                     </div>
                 </div>
             </div>
@@ -174,33 +169,27 @@
             const frame = document.getElementById('agentFrame');
             const buttons = document.querySelectorAll('.nav-btn');
             
-            // Reset Button Styles
             buttons.forEach(btn => {
                 btn.classList.remove('bg-neon/10', 'text-neon', 'border-neon/30');
                 btn.classList.add('text-[#888]');
             });
 
-            // Determine Active ID
-            let activeBtnId = 'btn-math'; // Set Math Bot as the primary default
+            let activeBtnId = 'btn-math';
             if (folderName === 'echo-bot') activeBtnId = 'btn-echo';
-            if (folderName === 'base-template') activeBtnId = 'btn-base';
             if (folderName === 'data-discovery') activeBtnId = 'btn-data';
 
-            // Highlight Active Button
             const activeBtn = document.getElementById(activeBtnId);
             if(activeBtn) {
                 activeBtn.classList.remove('text-[#888]');
                 activeBtn.classList.add('bg-neon/10', 'text-neon', 'border-neon/30');
             }
 
-            // Fade Effect for Iframe
             frame.style.opacity = '0';
             setTimeout(() => {
                 frame.src = `agents/${folderName}/index.html`;
                 frame.onload = () => { frame.style.opacity = '1'; };
             }, 200);
 
-            // Auto-close sidebar on mobile
             if(window.innerWidth < 768) toggleSidebar();
         }
 
