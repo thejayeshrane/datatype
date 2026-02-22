@@ -122,7 +122,7 @@
             <div class="flex-1 overflow-y-auto space-y-2">
                 <div class="text-[11px] uppercase text-[#666] mb-3 pl-3 font-semibold tracking-wider">Active Agents</div>
                 
-                <button id="btn-math" onclick="loadAgent('math-bot')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
+                <!-- <button id="btn-math" onclick="loadAgent('math-bot')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
                     <span class="material-symbols-outlined text-[20px]">calculate</span>
                     <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Math Bot</span><span class="text-[10px] opacity-60 font-mono">ID: 001</span></div>
                 </button>
@@ -135,7 +135,13 @@
                 <button id="btn-data" onclick="loadAgent('data-discovery')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
                     <span class="material-symbols-outlined text-[20px]">database</span>
                     <div class="text-left flex flex-col"><span class="text-[13px] font-medium">Data Discovery</span><span class="text-[10px] opacity-60 font-mono">ID: 003</span></div>
+                </button> -->
+
+                <button id="btn-data" onclick="loadAgent('docu-bot')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg text-[#888] hover:text-white hover:bg-[#111] border border-transparent transition-all">
+                    <span class="material-symbols-outlined text-[20px]">description</span>
+                    <div class="text-left flex flex-col"><span class="text-[13px] font-medium">DocuBot</span><span class="text-[10px] opacity-60 font-mono">ID: 001</span></div>
                 </button>
+
             </div>
         </aside>
 
@@ -177,6 +183,7 @@
             let activeBtnId = 'btn-math';
             if (folderName === 'echo-bot') activeBtnId = 'btn-echo';
             if (folderName === 'data-discovery') activeBtnId = 'btn-data';
+            if (folderName === 'docu-bot') activeBtnId = 'btn-data';
 
             const activeBtn = document.getElementById(activeBtnId);
             if(activeBtn) {
